@@ -32,7 +32,7 @@ public enum Menu {
                 '}';
     }
 
-    static public Menu intOf(int key){
+    static public Menu keyOf(int key){
         for(Menu item: Menu.values()) {
             if (item.key == key) {
                 return item;

@@ -58,7 +58,7 @@ public class CarWorkshopApp {
             }
             int item = scanner.nextInt();
             scanner.nextLine();
-            menuOption = Menu.intOf(item);
+            menuOption = Menu.keyOf(item);
             if (menuOption == null){
                 continue;
             }
