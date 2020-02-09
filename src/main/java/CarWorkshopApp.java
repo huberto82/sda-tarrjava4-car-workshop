@@ -1,12 +1,15 @@
 import domain.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CarWorkshopApp {
     static Scanner scanner = new Scanner(System.in);
-    static Cars cars = new Cars();
-    static Clients clients = new Clients();
-    static Servicies servicies = new Servicies();
+    static List<Car> cars = new ArrayList<>();
+    static List<Client> clients = new ArrayList<>();
+    static List<Service> servicies = new ArrayList<>();
 
     static void printMenu(){
         for(Menu item:Menu.values()){
@@ -22,7 +25,7 @@ public class CarWorkshopApp {
         String regNum = scanner.nextLine();
         System.out.println("Podaj numer właściciela");
         int clientNumber = scanner.nextInt();
-        Car car = new Car(model, regNum, clients.getAt(clientNumber));
+        Car car = new Car(model, regNum, clients.get(clientNumber));
         cars.add(car);
     }
 
@@ -43,9 +46,14 @@ public class CarWorkshopApp {
         scanner.nextLine();
         System.out.println("Wpisz opis usługi");
         String desc = scanner.nextLine();
-        servicies.add(new ChangeOilService(cars.getAt(carNumber), desc));
+        servicies.add(new ChangeOilService(cars.get(carNumber), desc));
     }
 
+    static <T> void  printAll(List<T> list){
+        for(T item: list){
+            System.out.println(item);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("Hello from workshop");
@@ -75,15 +83,20 @@ public class CarWorkshopApp {
                 case PRINT_INVOCE:
                     break;
                 case PRINT_CARS:
-                    cars.printAll();
+                    printAll(cars);
                     break;
                 case PRINT_CLIENTS:
-                    clients.printAll();
+                    printAll(clients);
                     break;
                 case PRINT_SERVICIES:
-                    servicies.printAll();
+                    printAll(servicies);
                     break;
                 case EXIT:
+                    try {
+                        ClientIO.save("C:\\temp\\clients.txt", clients);
+                    } catch (IOException e) {
+                        System.out.println("Zapis nie powiódł się!!!");
+                    }
                     return;
             }
         }
